@@ -6,6 +6,13 @@ import string
 import funds_name
 
 
+FieldsList = [
+    "Num", "Date", "Code", "Title", "Value", 
+    "IncToday", "IncWeek", "Inc1Month", "Inc3Months", "Inc6Months", 
+    "Inc1Year", "Inc2Years", "Inc3Years", "IncThisYear", "IncSinceCreated", 
+    "Birthday", 
+]
+
 ALL_FUNDS = []
 
 def gen_all_sec_list(specific_file):
@@ -75,13 +82,6 @@ def _fetch_field(line, mode, InfoList, field):
         print("Exception is %s: Wrong line is %s" % (str(ex), line))
 
 def analyze(all_sec_list):
-    FieldsList = [
-            "Num", "Date", "Code", "Title", "Value", 
-            "IncToday", "IncWeek", "Inc1Month", "Inc3Months", "Inc6Months", 
-            "Inc1Year", "Inc2Years", "Inc3Years", "IncThisYear", "IncSinceCreated", 
-            "Birthday", 
-    ]
-    
     for tr in all_sec_list:
         InfoList = {}
         for key in FieldsList:
@@ -126,6 +126,42 @@ def write_to_res_file(order):
             file.write(line)
             count += 1
                    
+
+def _gen_set(order, Top):
+    FUNDS = []
+    for rec in ALL_FUNDS:
+        if rec[order].find('%') != -1:
+            FUNDS.append(rec)
+    
+    count = 0
+    my_list = []
+    for rec in sorted(FUNDS, key=lambda record: string.atof(record[order].split("%")[0]), reverse=True):
+        my_list.append('\t'.join([rec["Code"], rec["Title"]]))
+        count += 1
+        if count >= Top:
+            break
+
+    my_set = set(my_list)
+    return my_set
+
+def get_intersection(Top = 100,
+                     Inc3Years  = True, Inc2Years  = True, Inc1Year  = True,
+                     Inc6Months = True, Inc3Months = True, Inc1Month = True):
+    
+    set_3years   = _gen_set("Inc3Years", Top)   if Inc3Years   else set()
+    set_2years   = _gen_set("Inc2Years", Top)   if Inc2Years   else set()
+    set_1year    = _gen_set("Inc1Year", Top)    if Inc1Year    else set()
+    set_6months  = _gen_set("Inc6Months", Top)  if Inc6Months  else set()
+    set_3months  = _gen_set("Inc3Months", Top)  if Inc3Months  else set()
+    set_1month   = _gen_set("Inc1Month", Top)   if Inc1Month   else set()
+    
+    final_set = set_3years & set_2years & set_1year & set_6months & set_3months & set_1month
+    
+    with open("./funds_set.txt", "w") as wfile:
+        for item in final_set:
+            wfile.write(item + '\n')
+
+
 def main():
     for i in sorted(funds_name.UF.keys()):
         url  = funds_name.UF[i]['url']
@@ -136,12 +172,14 @@ def main():
         else:
             print("File %s does not exist!" % file)
             
-        write_to_res_file("Inc1Month")
-        write_to_res_file("Inc3Months")
-        write_to_res_file("Inc6Months")
-        write_to_res_file("Inc1Year")
-        write_to_res_file("Inc2Years")
-        write_to_res_file("Inc3Years")
+        # write_to_res_file("Inc1Month")
+        # write_to_res_file("Inc3Months")
+        # write_to_res_file("Inc6Months")
+        # write_to_res_file("Inc1Year")
+        # write_to_res_file("Inc2Years")
+        # write_to_res_file("Inc3Years")
+        
+        get_intersection()
         
     
 if __name__:
