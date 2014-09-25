@@ -6,6 +6,7 @@ ROOT_DIR = "C:/Users/leile/funds_collection/basic_data"
 
 TARGET_DIR = os.path.join(ROOT_DIR, TODAY)
 if not os.path.exists(TARGET_DIR):
+    TARGET_DIR = "./funds_collection/basic_data"
     os.makedirs(TARGET_DIR)
     
 URL = "http://huobijijin.com/jijin?order_by=5"
@@ -22,6 +23,7 @@ RES_ROOT_DIR = "C:/Users/leile/funds_collection/result_data"
 RES_DIR      = os.path.join(RES_ROOT_DIR, TODAY)
 
 if not os.path.exists(RES_DIR):
+    RES_ROOT_DIR = "./funds_collection/result_data"
     os.makedirs(RES_DIR)
     
 RES_FILES = {
