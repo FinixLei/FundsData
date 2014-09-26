@@ -4,9 +4,11 @@ import time
 TODAY = time.strftime("%Y-%m-%d")
 ROOT_DIR = "C:/Users/leile/funds_collection/basic_data"
 
+if not os.path.exists(ROOT_DIR):
+    ROOT_DIR = "./funds_collection/basic_data"
+
 TARGET_DIR = os.path.join(ROOT_DIR, TODAY)
 if not os.path.exists(TARGET_DIR):
-    TARGET_DIR = "./funds_collection/basic_data"
     os.makedirs(TARGET_DIR)
     
 URL = "http://huobijijin.com/jijin?order_by=5"
