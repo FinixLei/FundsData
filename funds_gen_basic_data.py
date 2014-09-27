@@ -2,8 +2,8 @@
 
 import re
 import os
-import time
 import string
+import argparse
 import funds_name
 
 
@@ -82,6 +82,7 @@ def _fetch_field(line, mode, InfoList, field):
         InfoList[field] = "None"
         print("Exception is %s: Wrong line is %s" % (str(ex), line))
 
+
 def analyze(all_sec_list):
     for tr in all_sec_list:
         InfoList = {}
@@ -111,7 +112,6 @@ def analyze(all_sec_list):
         
         if len(ALL_FUNDS) == 0 or ALL_FUNDS[len(ALL_FUNDS)-1]["Code"] != InfoList["Code"]:
             ALL_FUNDS.append(InfoList) 
-        
 
 
 def write_to_res_file(order):
@@ -128,55 +128,13 @@ def write_to_res_file(order):
             line = '\t'.join([str(count), rec["Date"], rec["Code"], rec["Title"], rec[order]]) + '\n'
             file.write(line)
             count += 1
-                   
-
-def _gen_set(order, Top):
-    TODAY = time.strftime("%m-%d")
-    FUNDS = []
-    for rec in ALL_FUNDS:
-        if rec[order].find('%') != -1 and rec["Date"] == TODAY:
-            FUNDS.append(rec)
-    
-    count = 0
-    my_list = []
-    for rec in sorted(FUNDS, key=lambda record: string.atof(record[order].split("%")[0]), reverse=True):
-        my_list.append('\t'.join([rec["Code"], rec["Title"]]))
-        count += 1
-        if count >= Top:
-            break
-
-    my_set = set(my_list)
-    return my_set
-
-def get_intersection(WriteFile, Top = 100, 
-                     Inc3Years  = True, Inc2Years  = True, Inc1Year  = True,
-                     Inc6Months = True, Inc3Months = True, Inc1Month = True):
-    
-    set_3years  = _gen_set("Inc3Years",  Top) if Inc3Years  else set()
-    set_2years  = _gen_set("Inc2Years",  Top) if Inc2Years  else set()
-    set_1year   = _gen_set("Inc1Year",   Top) if Inc1Year   else set()
-    set_6months = _gen_set("Inc6Months", Top) if Inc6Months else set()
-    set_3months = _gen_set("Inc3Months", Top) if Inc3Months else set()
-    set_1month  = _gen_set("Inc1Month",  Top) if Inc1Month  else set()
-    
-    final_set = set_3years if Inc3Years else None
-    if Inc2Years:
-        final_set = final_set & set_2years  if final_set else set_2years
-    if Inc1Year:
-        final_set = final_set & set_1year   if final_set else set_1year
-    if Inc6Months:
-        final_set = final_set & set_6months if final_set else set_6months
-    if Inc3Months:
-        final_set = final_set & set_3months if final_set else set_3months
-    if Inc1Month:
-        final_set = final_set & set_1month  if final_set else set_1month
-    
-    with open(WriteFile, "w") as wfile:
-        for item in final_set:
-            wfile.write(item + '\n')
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-g", "--gen_res_files", action="store_false", default=None, help="generate the result files")
+    args = parser.parse_args()
+
     for i in sorted(funds_name.UF.keys()):
         url  = funds_name.UF[i]['url']
         file = funds_name.UF[i]['file']
@@ -185,21 +143,15 @@ def main():
             analyze(all_sec_list)
         else:
             print("File %s does not exist!" % file)
-            
+
+    if args.gen_res_files is not None:
         write_to_res_file("Inc1Month")
         write_to_res_file("Inc3Months")
         write_to_res_file("Inc6Months")
         write_to_res_file("Inc1Year")
         write_to_res_file("Inc2Years")
         write_to_res_file("Inc3Years")
-        
-        cfg_100_all = {'Top':100, 'Inc3Years':True, 'Inc2Years':True, 'Inc1Year':True, 'Inc6Months':True, 'Inc3Months':True, 'Inc1Month':True}
-        cfg_50_all  = {'Top':50,  'Inc3Years':True, 'Inc2Years':True, 'Inc1Year':True, 'Inc6Months':True, 'Inc3Months':True, 'Inc1Month':True}
-        
-        TODAY = time.strftime("%Y-%m-%d")
-        get_intersection("./cfg_100_all" + TODAY +".txt", **cfg_100_all)
-        get_intersection("./cfg_50_all" + TODAY +".txt",  **cfg_50_all)
-        
+    
     
 if __name__:
     main()

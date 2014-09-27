@@ -3,7 +3,12 @@ FundsData
 
 collect data from funds website and do analysis
 
-Run "python ./funds_download.py" to download the daily data.
+python ./funds_download.py
+    Download the daily data.
 
-Run "python ./funds_dig.py" to generate the analysis report. 
-
+python ./funds_gen_basic_data.py -g
+python ./funds_gen_basic_data.py --gen_res_file
+    Generate the result files per each kind of order. 
+    
+python ./funds_get_result.py
+    Generate the final report per the setup specified in funds_get_result.py. 
