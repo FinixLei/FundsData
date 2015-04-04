@@ -1,2 +1,6 @@
 *.pyc
 *.txt
+.idea
+.idea/*
+data
+data/*

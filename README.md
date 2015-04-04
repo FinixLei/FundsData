@@ -7,8 +7,7 @@ python ./funds_download.py
     Download the daily data.
 
 python ./funds_gen_basic_data.py -g
-python ./funds_gen_basic_data.py --gen_res_file
-    Generate the result files per each kind of order. 
+    Generate the result files per each kind of order.
     
 python ./funds_get_result.py
     Generate the final report per the setup specified in funds_get_result.py. 

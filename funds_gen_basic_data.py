@@ -1,10 +1,10 @@
-# -*- coding: UTF-8 -*-
+# coding=utf-8
 
 import re
 import os
 import string
 import argparse
-import funds_name
+from settings import WEB_PAGES, SORTING_FILES
 
 
 FieldsList = [
@@ -16,28 +16,28 @@ FieldsList = [
 
 ALL_FUNDS = []
 
+
 def gen_all_sec_list(specific_file):
     str_tbody_start = "<tbody>"
-    str_tbody_end   = "</tbody>"
+    str_tbody_end = "</tbody>"
     
     pt_tbody_start = re.compile(r'\s*<tbody>\s*')
-    pt_tbody_end   = re.compile(r'\s*</tbody>\s*')
+    pt_tbody_end = re.compile(r'\s*</tbody>\s*')
     
     pt_sec_start = re.compile(r'\s*<tr>\s*')
-    pt_sec_end   = re.compile(r'\s*</tr>\s*')
-    
-    
-    with open(specific_file, "r") as file:
-        s = file.read()
+    pt_sec_end = re.compile(r'\s*</tr>\s*')
+
+    with open(specific_file, "r") as sf:
+        s = sf.read()
         mylist = s.split('\n')
         
-    if (s.count(str_tbody_start) != 1 or s.count(str_tbody_end) != 1):
-        print("Unrecoginized tables: There are more than 1 pair of 'tbody' tags.")
+    if s.count(str_tbody_start) != 1 or s.count(str_tbody_end) != 1:
+        print("Unrecognized tables: There are more than 1 pair of 'tbody' tags.")
         return
         
-    bInTable   = False
+    bInTable = False
     bInSection = False
-    line_num   = 0
+    line_num = 0
     
     all_sec_list = []
     
@@ -64,7 +64,7 @@ def gen_all_sec_list(specific_file):
                             all_sec_list.append(sec_list)
                             break
                 
-        else: # not in table
+        else:  # not in table
             if pt_tbody_start.match(line):
                 bInTable = True
                 
@@ -114,15 +114,15 @@ def analyze(all_sec_list):
             ALL_FUNDS.append(InfoList) 
 
 
-def write_to_res_file(order):
-    with open(funds_name.RES_FILES[order], "w") as file:
+def write_to_sorting_file(order):
+    with open(SORTING_FILES[order], "w") as file:
         count = 1
-        FUNDS = []
+        funds = []
         for rec in ALL_FUNDS:
             if rec[order].find('%') != -1:
-                FUNDS.append(rec)
+                funds.append(rec)
                 
-        for rec in sorted(FUNDS, key=lambda record: string.atof(record[order].split("%")[0]), reverse=True):
+        for rec in sorted(funds, key=lambda record: string.atof(record[order].split("%")[0]), reverse=True):
             # line = '\t'.join([str(count), rec["Date"], rec["Code"], rec["Title"], rec["IncToday"], \
             #        rec["Inc1Month"], rec["Inc3Months"], rec["Inc6Months"], rec["Inc1Year"], rec["Inc2Years"], rec["Inc3Years"]]) + '\n'
             line = '\t'.join([str(count), rec["Date"], rec["Code"], rec["Title"], rec[order]]) + '\n'
@@ -132,27 +132,25 @@ def write_to_res_file(order):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-g", "--gen_res_files", action="store_false", default=None, help="generate the result files")
+    parser.add_argument("-g", "--gen_res_files", action="store_false", default=None, help="generate the sorting files")
     args = parser.parse_args()
 
-    for i in sorted(funds_name.UF.keys()):
-        url  = funds_name.UF[i]['url']
-        file = funds_name.UF[i]['file']
-        if os.path.exists(file):
-            all_sec_list = gen_all_sec_list(file)
+    for i in sorted(WEB_PAGES.keys()):
+        f = WEB_PAGES[i]['file']
+        if os.path.exists(f):
+            all_sec_list = gen_all_sec_list(f)
             analyze(all_sec_list)
         else:
-            print("File %s does not exist!" % file)
+            print "File %s does not exist!" % f
 
     if args.gen_res_files is not None:
-        write_to_res_file("Inc1Month")
-        write_to_res_file("Inc3Months")
-        write_to_res_file("Inc6Months")
-        write_to_res_file("Inc1Year")
-        write_to_res_file("Inc2Years")
-        write_to_res_file("Inc3Years")
+        write_to_sorting_file("Inc1Month")
+        write_to_sorting_file("Inc3Months")
+        write_to_sorting_file("Inc6Months")
+        write_to_sorting_file("Inc1Year")
+        write_to_sorting_file("Inc2Years")
+        write_to_sorting_file("Inc3Years")
     
     
 if __name__:
     main()
-    

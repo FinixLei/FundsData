@@ -1,16 +1,16 @@
 import urllib2
-import funds_name
+from settings import WEB_PAGES
 
-for key in sorted(funds_name.UF.keys()):
+for i in sorted(WEB_PAGES.keys()):
     try:
-        url         = funds_name.UF[key]["url"]
-        target_file = funds_name.UF[key]["file"]
+        url = WEB_PAGES[i]["url"]
+        target_file = WEB_PAGES[i]["file"]
         
-        print("Downloading %s" % url)
+        print "Downloading %s......" % url
         f = urllib2.urlopen(url)
-        with open(target_file, 'w') as file:
-            file.write(f.read())
+        with open(target_file, 'w') as tf:
+            tf.write(f.read())
     
     except Exception as ex:
-        print(str(ex))
+        print str(ex)
         break
