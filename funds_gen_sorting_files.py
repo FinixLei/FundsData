@@ -3,7 +3,6 @@
 import re
 import os
 import string
-import argparse
 from settings import WEB_PAGES, SORTING_FILES
 
 
@@ -32,7 +31,7 @@ def gen_all_sec_list(specific_file):
         mylist = s.split('\n')
         
     if s.count(str_tbody_start) != 1 or s.count(str_tbody_end) != 1:
-        print("Unrecognized tables: There are more than 1 pair of 'tbody' tags.")
+        print "Unrecognized tables: There are more than 1 pair of 'tbody' tags."
         return
         
     bInTable = False
@@ -80,7 +79,7 @@ def _fetch_field(line, mode, InfoList, field):
         InfoList[field] = res[0] if res else "None"
     except Exception as ex:
         InfoList[field] = "None"
-        print("Exception is %s: Wrong line is %s" % (str(ex), line))
+        print "Exception is %s: Wrong line is %s" % (str(ex), line)
 
 
 def analyze(all_sec_list):
