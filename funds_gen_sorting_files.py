@@ -115,7 +115,7 @@ def analyze(all_sec_list):
 
 
 def write_to_sorting_file(order):
-    with open(SORTING_FILES[order], "w") as file:
+    with open(SORTING_FILES[order], "w") as out_file:
         count = 1
         funds = []
         for rec in ALL_FUNDS:
@@ -126,15 +126,11 @@ def write_to_sorting_file(order):
             # line = '\t'.join([str(count), rec["Date"], rec["Code"], rec["Title"], rec["IncToday"], \
             #        rec["Inc1Month"], rec["Inc3Months"], rec["Inc6Months"], rec["Inc1Year"], rec["Inc2Years"], rec["Inc3Years"]]) + '\n'
             line = '\t'.join([str(count), rec["Date"], rec["Code"], rec["Title"], rec[order]]) + '\n'
-            file.write(line)
+            out_file.write(line)
             count += 1
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-g", "--gen_res_files", action="store_false", default=None, help="generate the sorting files")
-    args = parser.parse_args()
-
     for i in sorted(WEB_PAGES.keys()):
         f = WEB_PAGES[i]['file']
         if os.path.exists(f):
@@ -143,13 +139,12 @@ def main():
         else:
             print "File %s does not exist!" % f
 
-    if args.gen_res_files is not None:
-        write_to_sorting_file("Inc1Month")
-        write_to_sorting_file("Inc3Months")
-        write_to_sorting_file("Inc6Months")
-        write_to_sorting_file("Inc1Year")
-        write_to_sorting_file("Inc2Years")
-        write_to_sorting_file("Inc3Years")
+    write_to_sorting_file("Inc1Month")
+    write_to_sorting_file("Inc3Months")
+    write_to_sorting_file("Inc6Months")
+    write_to_sorting_file("Inc1Year")
+    write_to_sorting_file("Inc2Years")
+    write_to_sorting_file("Inc3Years")
     
     
 if __name__:

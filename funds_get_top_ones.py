@@ -1,12 +1,12 @@
 import string
 import os
-import funds_gen_basic_data
+from funds_gen_sorting_files import ALL_FUNDS
 from settings import TODAY, RESULT_DIR
 
 
 def _gen_set(order, Top):
     funds = []
-    for rec in funds_gen_basic_data.ALL_FUNDS:
+    for rec in ALL_FUNDS:
         if rec[order].find('%') != -1:
             funds.append(rec)
     
