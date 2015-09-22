@@ -43,7 +43,7 @@ SORTING_FILES = {
 # settings for get top N
 # Each line below represents one set which matches all the orders listed
 # Thus the following part can be designated by the user
-top_100_cfg = {'Top': 100, 'Inc3Years': True, 'Inc2Years': True, 'Inc1Year': True,
-               'Inc6Months': True, 'Inc3Months': True, 'Inc1Month': True}
-top_50_cfg = {'Top': 50, 'Inc3Years': True, 'Inc2Years': True, 'Inc1Year': True,
-              'Inc6Months': True, 'Inc3Months': True, 'Inc1Month': True}
+top_100_cfg = {'Top': 100, 'Inc3Years': False, 'Inc2Years': False, 'Inc1Year': True,
+               'Inc6Months': True, 'Inc3Months': True, 'Inc1Month': False}
+top_50_cfg = {'Top': 50, 'Inc3Years': False, 'Inc2Years': True, 'Inc1Year': True,
+              'Inc6Months': True, 'Inc3Months': True, 'Inc1Month': False}

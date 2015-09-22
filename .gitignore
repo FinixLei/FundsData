@@ -1,5 +1,4 @@
 *.pyc
 *.txt
 .idea/
-.idea/inspectionProfiles/Project_Default.xml
 data/
