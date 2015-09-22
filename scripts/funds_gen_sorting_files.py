@@ -29,7 +29,7 @@ def gen_all_sec_list(specific_file):
     with open(specific_file, "r") as sf:
         s = sf.read()
         mylist = s.split('\n')
-        
+
     if s.count(str_tbody_start) != 1 or s.count(str_tbody_end) != 1:
         print "Unrecognized tables: There are more than 1 pair of 'tbody' tags."
         return
@@ -85,8 +85,6 @@ def _fetch_field(line, mode, InfoList, field):
 def analyze(all_sec_list):
     for tr in all_sec_list:
         InfoList = {}
-        for key in FieldsList:
-            InfoList[key] = "None" 
         
         count = 0
         for td in tr:
@@ -108,7 +106,8 @@ def analyze(all_sec_list):
                 pass
                 
             count += 1
-        
+
+        # Due to some kind of error in the web page downloaded, use the following validation
         if len(ALL_FUNDS) == 0 or ALL_FUNDS[len(ALL_FUNDS)-1]["Code"] != InfoList["Code"]:
             ALL_FUNDS.append(InfoList) 
 
@@ -146,5 +145,5 @@ def main():
     write_to_sorting_file("Inc3Years")
     
     
-if __name__:
+if __name__ == "__main__":
     main()
