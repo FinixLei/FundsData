@@ -79,7 +79,8 @@ def _fetch_field(line, mode, InfoList, field):
         InfoList[field] = res[0] if res else "None"
     except Exception as ex:
         InfoList[field] = "None"
-        print "Exception is %s: Wrong line is %s" % (str(ex), line)
+        if line.find('<td class="hide-col"></td>') == -1:
+            print "Exception is %s: Wrong line is %s" % (str(ex), line)
 
 
 def analyze(all_sec_list):

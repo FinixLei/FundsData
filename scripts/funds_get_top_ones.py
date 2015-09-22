@@ -1,7 +1,7 @@
 import string
 import os
 from funds_gen_sorting_files import ALL_FUNDS
-from settings import TODAY, RESULT_DIR, cfg_100_all, cfg_50_all
+from settings import TODAY, RESULT_DIR, top_100_cfg, top_50_cfg
 
 
 def _gen_set(order, Top):
@@ -25,7 +25,6 @@ def _gen_set(order, Top):
 def get_intersection(WriteFile, Top=100,
                      Inc3Years=True, Inc2Years=True, Inc1Year=True,
                      Inc6Months=True, Inc3Months=True, Inc1Month=True):
-    
     set_3years = _gen_set("Inc3Years", Top) if Inc3Years else set()
     set_2years = _gen_set("Inc2Years", Top) if Inc2Years else set()
     set_1year = _gen_set("Inc1Year", Top) if Inc1Year else set()
@@ -51,9 +50,8 @@ def get_intersection(WriteFile, Top=100,
 
 
 def main():
-
-    get_intersection(os.path.join(RESULT_DIR, "all_100_%s.txt" % TODAY), **cfg_100_all)
-    get_intersection(os.path.join(RESULT_DIR, "all_50_%s.txt" % TODAY), **cfg_50_all)
+    get_intersection(os.path.join(RESULT_DIR, "all_100_%s.txt" % TODAY), **top_100_cfg)
+    get_intersection(os.path.join(RESULT_DIR, "all_50_%s.txt" % TODAY), **top_50_cfg)
 
 
 if __name__ == "__main__":

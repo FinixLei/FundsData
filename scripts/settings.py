@@ -1,10 +1,12 @@
 import os
 import time
 
+BASEDIR = os.path.join(os.path.dirname(os.path.join(os.path.abspath(__file__))), "..")
+
 TODAY = time.strftime("%Y-%m-%d")
 
 # settings for temporary downloaded web pages
-TODAY_WEB_PAGE_DIR = os.path.join("../data/web_pages", TODAY)
+TODAY_WEB_PAGE_DIR = os.path.join(os.path.join(BASEDIR, "data/web_pages"), TODAY)
 
 if not os.path.exists(TODAY_WEB_PAGE_DIR):
     os.makedirs(TODAY_WEB_PAGE_DIR)
@@ -20,7 +22,7 @@ for i in range(PAGE_NUM):
     WEB_PAGES[i] = {'url': url, 'file': target_file}
 
 # settings for result files
-RESULT_DIR = "../data/result"
+RESULT_DIR = os.path.join(BASEDIR, "data/result")
 
 # settings for sorting files
 TODAY_SORTING_DIR = os.path.join(RESULT_DIR, "sorting_%s" % TODAY)
@@ -41,7 +43,7 @@ SORTING_FILES = {
 # settings for get top N
 # Each line below represents one set which matches all the orders listed
 # Thus the following part can be designated by the user
-cfg_100_all = {'Top': 100, 'Inc3Years': True, 'Inc2Years': True, 'Inc1Year': True,
+top_100_cfg = {'Top': 100, 'Inc3Years': True, 'Inc2Years': True, 'Inc1Year': True,
                'Inc6Months': True, 'Inc3Months': True, 'Inc1Month': True}
-cfg_50_all = {'Top': 50, 'Inc3Years': True, 'Inc2Years': True, 'Inc1Year': True,
+top_50_cfg = {'Top': 50, 'Inc3Years': True, 'Inc2Years': True, 'Inc1Year': True,
               'Inc6Months': True, 'Inc3Months': True, 'Inc1Month': True}
