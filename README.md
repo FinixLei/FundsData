@@ -1,6 +1,6 @@
 # FundsData
 ----------------------------------------------------------
-
+## Introduction
 These scripts are downloading funds data from <http://huobijijin.com/>.  
 Then analyze the downloaded data to generate 6 sorting files, which are the sorting funds based on 6 kinds of orders, e.g. last month, last 3 months, last 6 months, last year, last 3 years, etc.  
 At last, this script can give all the funds that are in the top 100 of the above 6 kinds of orders, and all the funds that are in the top 50 of the above 6 kinds of orders.
@@ -26,3 +26,13 @@ optional arguments:
 
 
 </code></pre>
+
+-----------------------------
+## Distribution
+
+Run the following commands to register, build and upload the package to PYPI.  
+
+	python setup.py register sdist upload
+
+The home page on PYPI is: <https://pypi.python.org/pypi/FundsData/0.90/>
+

@@ -2,3 +2,7 @@
 *.txt
 .idea/
 data/
+MANIFEST
+build/
+dist/
+

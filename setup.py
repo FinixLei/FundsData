@@ -1,3 +1,5 @@
+from distutils.core import setup
+
 PACKAGE = "FundsData"
 NAME = "FundsData"
 DESCRIPTION = "This package can downloads funds data from http://huobijijin.com and then analyze the data for giving valuable funds."
@@ -10,21 +12,16 @@ setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
-    long_description=read("README.md"),
+    # long_description=read("README.md"),
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
-    license="Apache 2",
+    license="Apache License, Version 2.0",
     url=URL,
-    packages=find_packages(exclude=["tests.*", "tests"]),
-    package_data=find_package_data(
-            PACKAGE,
-            only_in_packages=False
-    ),
+    packages=["FundsData"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: Apache 2 License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
     ],
