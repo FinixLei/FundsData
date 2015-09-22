@@ -1,8 +1,10 @@
 import string
 import os
-from funds_gen_sorting_files import ALL_FUNDS
+from funds_gen_sorting_files import funds_sorter
 from settings import TODAY, RESULT_DIR, top_100_cfg, top_50_cfg
 
+
+ALL_FUNDS = funds_sorter.get_all_funds()
 
 def _gen_set(order, Top):
     funds = []
