@@ -2,7 +2,7 @@ from distutils.core import setup
 
 PACKAGE = "FundsData"
 NAME = "FundsData"
-DESCRIPTION = "This package can downloads funds data from http://huobijijin.com and then analyze the data for giving valuable funds."
+DESCRIPTION = "This package can download funds data from http://huobijijin.com and then analyze the data for giving valuable funds."
 AUTHOR = "Finix Lei"
 AUTHOR_EMAIL = "finixlei@gmail.com"
 URL = "https://github.com/FinixLei/FundsData"
