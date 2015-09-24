@@ -147,8 +147,5 @@ class FundsSorter(object):
         self.write_to_sorting_file("Inc2Years")
         self.write_to_sorting_file("Inc3Years")
 
-    
-if __name__ == "__main__":
-    funds_sorter.do_work()
 
 funds_sorter = FundsSorter()

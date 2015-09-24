@@ -1,12 +1,20 @@
 import os
 import time
 
-BASEDIR = os.path.join(os.path.dirname(os.path.join(os.path.abspath(__file__))), "..")
+BASEDIR = "/tmp/FundsData"
+
+if not os.path.exists(BASEDIR):
+    try:
+        os.makedirs(BASEDIR)
+    except Exception as ex:
+        OLD_BASEDIR = BASEDIR
+        BASEDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+        print "Cannot create %s, will choose another folder for data: %s" % (OLD_BASEDIR, BASEDIR)
 
 TODAY = time.strftime("%Y-%m-%d")
 
 # settings for temporary downloaded web pages
-TODAY_WEB_PAGE_DIR = os.path.join(os.path.join(BASEDIR, "data/web_pages"), TODAY)
+TODAY_WEB_PAGE_DIR = os.path.join(os.path.join(BASEDIR, "web_pages"), TODAY)
 
 if not os.path.exists(TODAY_WEB_PAGE_DIR):
     os.makedirs(TODAY_WEB_PAGE_DIR)
@@ -22,7 +30,7 @@ for i in range(PAGE_NUM):
     WEB_PAGES[i] = {'url': url, 'file': target_file}
 
 # settings for result files
-RESULT_DIR = os.path.join(BASEDIR, "data/result")
+RESULT_DIR = os.path.join(BASEDIR, "result")
 
 # settings for sorting files
 TODAY_SORTING_DIR = os.path.join(RESULT_DIR, "sorting_%s" % TODAY)
