@@ -35,7 +35,7 @@ Run the following commands to register, build and upload the package to PYPI.
 
 	python setup.py register sdist upload
 
-The home page on PYPI is: <https://pypi.python.org/pypi/FundsData/0.90/>
+The home page on PYPI is: <https://pypi.python.org/pypi/FundsData>
 
 -----------------------------
 ## Install
