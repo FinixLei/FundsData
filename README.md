@@ -37,3 +37,16 @@ Run the following commands to register, build and upload the package to PYPI.
 
 The home page on PYPI is: <https://pypi.python.org/pypi/FundsData/0.90/>
 
+-----------------------------
+## Install
+
+    sudo pip install FundsData
+
+-----------------------------
+## Usage
+
+After installation, run the following command:
+
+    python -mFundsData.funds_data -h
+
+    python -mFundsData.funds_data
