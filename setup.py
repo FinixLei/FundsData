@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
-PACKAGE = "fundsdata"
-NAME = "fundsdata"
+PACKAGE = "funds_data"
+NAME = "funds_data"
 DESCRIPTION = "This package can download funds data from http://huobijijin.com and then analyze the data for giving valuable funds."
 AUTHOR = "Finix Lei"
 AUTHOR_EMAIL = "finixlei@gmail.com"
@@ -27,7 +27,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'fundsdata = fundsdata.funds_data:main',
+            'funds_data = funds_data.funds_data:main',
             ]
     },
     zip_safe=False,
