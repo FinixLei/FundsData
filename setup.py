@@ -17,7 +17,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     license="Apache License, Version 2.0",
     url=URL,
-    packages=["FundsData"],
+    packages=["fundsdata"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
