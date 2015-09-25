@@ -7,7 +7,7 @@ At last, this script can give all the funds that are in the top 100 of the above
 Generally speaking, the report will be under */tmp/FundsData/result* for Unix, and for Windows, the report will be under the *"data/result"* folder which is under the installation directory.  
 
 <pre><code>
-usage: python scripts/funds_data.py [-h] [-d] [-a] [-g] [-r] [-v]
+usage: fundsdata [-h] [-d] [-a] [-g] [-r] [-v]
 
 optional arguments:
   -h, --help      show this help message and exit
@@ -35,18 +35,17 @@ Run the following commands to register, build and upload the package to PYPI.
 
 	python setup.py register sdist upload
 
-The home page on PYPI is: <https://pypi.python.org/pypi/FundsData>
+The home page on PYPI is: <https://pypi.python.org/pypi/funds_data>
 
 -----------------------------
 ## Install
 
-    sudo pip install FundsData
+    sudo pip install funds_data
 
 -----------------------------
 ## Usage
 
 After installation, run the following command:
 
-    python -mFundsData.funds_data -h
-
-    python -mFundsData.funds_data
+    fundsdata -h
+	fundsdata
