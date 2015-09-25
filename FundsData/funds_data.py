@@ -22,7 +22,7 @@ def main():
                              "also generate all the funds that are in the top 50 of all kinds of orders.")
 
     parser.add_argument("-r", "--run", dest='run', action='store_true',
-                        help="Dry run, including download the web pages, do analysis, "
+                        help="Just run, including download the web pages, do analysis, "
                              "and generate the top 100 and top 50 funds matching all kinds of orders. "
                              "If don't specify any option, the effect is the same as specifying this option.")
 
