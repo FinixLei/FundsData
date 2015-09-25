@@ -47,5 +47,5 @@ The home page on PYPI is: <https://pypi.python.org/pypi/funds_data>
 
 After installation, run the following command:
 
-    fundsdata -h
-	fundsdata
+    funds_data -h
+	funds_data
