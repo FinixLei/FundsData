@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 PACKAGE = "fundsdata"
 NAME = "fundsdata"
@@ -17,7 +17,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     license="Apache License, Version 2.0",
     url=URL,
-    packages=["fundsdata"],
+    packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
