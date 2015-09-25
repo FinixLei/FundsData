@@ -33,22 +33,56 @@ def get_intersection(WriteFile, Top=100,
     set_6months = _gen_set("Inc6Months", Top) if Inc6Months else set()
     set_3months = _gen_set("Inc3Months", Top) if Inc3Months else set()
     set_1month = _gen_set("Inc1Month", Top) if Inc1Month else set()
-    
-    final_set = set_3years if Inc3Years else None
+
+    rating_set = ""
+    final_set = None
+
+    if Inc3Years:
+        rating_set += "3 years "
+        final_set = set_3years
+
     if Inc2Years:
-        final_set = final_set & set_2years if final_set else set_2years
+        rating_set += "2 years "
+        if final_set:
+            final_set = final_set & set_2years
+        else:
+            final_set = set_2years
+
     if Inc1Year:
-        final_set = final_set & set_1year if final_set else set_1year
+        rating_set += "1 year "
+        if final_set:
+            final_set = final_set & set_1year
+        else:
+            final_set = set_1year
+
     if Inc6Months:
-        final_set = final_set & set_6months if final_set else set_6months
+        rating_set += "6 months "
+        if final_set:
+            final_set = final_set & set_6months
+        else:
+            final_set = set_6months
+
     if Inc3Months:
-        final_set = final_set & set_3months if final_set else set_3months
+        rating_set += "3 months "
+        if final_set:
+            final_set = final_set & set_3months
+        else:
+            final_set = set_3months
+
     if Inc1Month:
-        final_set = final_set & set_1month if final_set else set_1month
-    
+        rating_set += "1 month "
+        if final_set:
+            final_set = final_set & set_1month
+        else:
+            final_set = set_1month
+
+    print "The following funds belong to top %d funds in recent %s" % (Top, rating_set)
+
     with open(WriteFile, "w") as wf:
         for item in final_set:
-            wf.write(item + '\n')
+            line = item + '\n'
+            wf.write(line)
+            print line
 
 
 def main():

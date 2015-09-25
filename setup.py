@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 PACKAGE = "FundsData"
 NAME = "FundsData"
@@ -25,5 +25,10 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
     ],
+    entry_points={
+        'console_scripts': [
+            'fundsdata = fundsdata.funds_data:main',
+            ]
+    },
     zip_safe=False,
 )
