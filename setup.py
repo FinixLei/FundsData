@@ -1,7 +1,7 @@
 from setuptools import setup
 
-PACKAGE = "FundsData"
-NAME = "FundsData"
+PACKAGE = "fundsdata"
+NAME = "fundsdata"
 DESCRIPTION = "This package can download funds data from http://huobijijin.com and then analyze the data for giving valuable funds."
 AUTHOR = "Finix Lei"
 AUTHOR_EMAIL = "finixlei@gmail.com"
