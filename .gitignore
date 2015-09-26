@@ -5,4 +5,5 @@ data/
 MANIFEST
 build/
 dist/
+funds_data.egg-info/
 

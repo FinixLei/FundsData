@@ -1,8 +1,7 @@
 # FundsData
 ----------------------------------------------------------
 ## Introduction
-These scripts are downloading funds data from <http://huobijijin.com/>.  
-Then analyze the downloaded data to generate 6 sorting files, which are the sorting funds based on 6 kinds of orders, e.g. last month, last 3 months, last 6 months, last year, last 2 years and last 3 years.  
+These scripts first download funds data from <http://huobijijin.com/>, then analyze the data to generate 6 sorting files, which are the sorting funds based on 6 kinds of orders, e.g. last month, last 3 months, last 6 months, last year, last 2 years and last 3 years.  
 At last, this script can give all the funds that are in the top 100 of the above 6 kinds of orders, and all the funds that are in the top 50 of the above 6 kinds of orders.
 Generally speaking, the report will be under */tmp/FundsData/result* for Unix, and for Windows, the report will be under the *"data/result"* folder which is under the installation directory.  
 
