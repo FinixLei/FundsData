@@ -1,12 +1,13 @@
 import string
 import os
-from funds_gen_sorting_files import funds_sorter
+from funds_gen_sorting_files import FundsSorter
 from settings import TODAY, RESULT_DIR, top_100_cfg, top_50_cfg
 
 
 ALL_FUNDS = []
 
 def _gen_set(order, Top):
+    global ALL_FUNDS
     funds = []
     for rec in ALL_FUNDS:
         if rec[order].find('%') != -1:
@@ -87,6 +88,7 @@ def get_intersection(WriteFile, Top=100,
 
 def main():
     global ALL_FUNDS
+    funds_sorter = FundsSorter()
     ALL_FUNDS = funds_sorter.get_all_funds()
     get_intersection(os.path.join(RESULT_DIR, "all_100_%s.txt" % TODAY), **top_100_cfg)
     get_intersection(os.path.join(RESULT_DIR, "all_50_%s.txt" % TODAY), **top_50_cfg)
