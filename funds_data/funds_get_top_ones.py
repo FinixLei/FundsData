@@ -44,35 +44,35 @@ def get_intersection(WriteFile, Top=100,
 
     if Inc2Years:
         rating_set += "2 years "
-        if final_set:
+        if final_set is not None:
             final_set = final_set & set_2years
         else:
             final_set = set_2years
 
     if Inc1Year:
         rating_set += "1 year "
-        if final_set:
+        if final_set is not None:
             final_set = final_set & set_1year
         else:
             final_set = set_1year
 
     if Inc6Months:
         rating_set += "6 months "
-        if final_set:
+        if final_set is not None:
             final_set = final_set & set_6months
         else:
             final_set = set_6months
 
     if Inc3Months:
         rating_set += "3 months "
-        if final_set:
+        if final_set is not None:
             final_set = final_set & set_3months
         else:
             final_set = set_3months
 
     if Inc1Month:
         rating_set += "1 month "
-        if final_set:
+        if final_set is not None:
             final_set = final_set & set_1month
         else:
             final_set = set_1month
