@@ -94,13 +94,27 @@ def list_files(target_dir):
 
 def print_total_hash():
     print "{"
-    for id in sorted(total_hash.keys()):
-        print '"%s": {' % id
-        print '    "title": "%s",' % total_hash[id]['title']
-        for date in sorted(total_hash[id].keys()):
+    all_keys = sorted(total_hash.keys())
+    last_key = all_keys[-1]
+    
+    for id in all_keys:
+        print '    "%s": {' % id
+        print '        "title": "%s",' % total_hash[id]['title']
+        
+        all_id_keys = sorted(total_hash[id].keys())
+        last_id_key = all_id_keys[-1] if all_id_keys[-1] != 'title' else all_id_keys[-2]
+        
+        for date in all_id_keys:
             if date != 'title':
-                print '    "%s": %s,' % (date, total_hash[id][date])
-        print "},"
+                if date != last_id_key:
+                    print '        "%s": %s,' % (date, total_hash[id][date])
+                else:
+                    print '        "%s": %s' % (date, total_hash[id][date])
+                
+        if id != last_key:
+            print "    },"
+        else:
+            print "    }"
     print "}"
 
 

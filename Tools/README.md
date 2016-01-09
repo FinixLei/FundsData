@@ -13,8 +13,9 @@ Both analzye\_htmls.pl and analyze\_htmls.py implements the same function. It is
     "2015-11-17": 3.6550,
     "2015-11-20": 3.6970,
     "2015-11-26": 3.7110,
-    "2015-12-01": 3.6420,
+    "2015-12-01": 3.6420
 },
 ......
 }
-</code></pre>
+</code></pre>  
+analyze\_htmls.pl has been deprecated, as it's just a reference object for analyze\_htmls.py and its output format has been different from the latest output format of the python script.   
