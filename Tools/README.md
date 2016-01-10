@@ -19,3 +19,6 @@ analyze\_htmls.py implements the function that reads and analyzes all the html f
 }
 </code></pre>  
 
+**Usage:**  
+python analyze\_htmls.py  
+The result file "/tmp/FundsData/result/all_data.txt" will be generated. It is a file containing a pure big json. 
