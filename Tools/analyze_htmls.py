@@ -3,7 +3,7 @@
 import re
 import os
 
-file_path_mode = re.compile(r'.*?(\d{4})-\d{2}-\d{2}')
+file_path_mode = re.compile(r'.*?(\d{4})-(\d{2})-\d{2}')
 tr_mode = re.compile(r'\s*<tr>\s*')
 date_mode = re.compile(r'\s*<td.*?>(.+)\</td>')
 id_mode = re.compile(r'\s*<td.*?>(\d+)</td>')
@@ -15,10 +15,12 @@ total_hash = {}
 def analyze_file(file_path):
     try:
         year = '????'
+        month = '??'
         if file_path_mode.match(file_path):
             res = file_path_mode.search(file_path).groups()
-            if res and res[0]:
+            if res and res[0] and res[1]:
                 year = res[0] 
+                month = res[1]
     except Exception as ex:
         print "Error happened when parsing file path: %s" % str(ex)
     
@@ -38,7 +40,11 @@ def analyze_file(file_path):
             if tr_mode.match(lines[i]):
                 res = date_mode.search(lines[i+2]).groups()
                 if res and res[0]:
-                    date = "%s-%s" % (year, res[0])
+                    month_value = res[0][0] + res[0][1]
+                    year_value = int(year)
+                    if month == '01' and month_value == '12':  # this is a potential bug, will fix it as below
+                        year_value -= 1
+                    date = "%d-%s" % (year_value, res[0])
                 else:
                     i += 2
                     continue
@@ -97,9 +103,11 @@ def print_total_hash():
     all_keys = sorted(total_hash.keys())
     last_key = all_keys[-1]
     
+    indent = "    "  # 4 spaces
+    
     for id in all_keys:
-        print '    "%s": {' % id
-        print '        "title": "%s",' % total_hash[id]['title']
+        print indent + '"%s": {' % id
+        print indent + indent + '"title": "%s",' % total_hash[id]['title']
         
         all_id_keys = sorted(total_hash[id].keys())
         last_id_key = all_id_keys[-1] if all_id_keys[-1] != 'title' else all_id_keys[-2]
@@ -107,14 +115,14 @@ def print_total_hash():
         for date in all_id_keys:
             if date != 'title':
                 if date != last_id_key:
-                    print '        "%s": %s,' % (date, total_hash[id][date])
+                    print indent + indent + '"%s": %s,' % (date, total_hash[id][date])
                 else:
-                    print '        "%s": %s' % (date, total_hash[id][date])
+                    print indent + indent + '"%s": %s' % (date, total_hash[id][date])
                 
         if id != last_key:
-            print "    },"
+            print indent + "},"
         else:
-            print "    }"
+            print indent + "}"
     print "}"
 
 

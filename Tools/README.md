@@ -1,5 +1,5 @@
-# analyze\_htmls.pl & analyze\_htmls.py
-Both analzye\_htmls.pl and analyze\_htmls.py implements the same function. It is to read and analyze all the html files at /tmp/FundsData/web_pages, and print out a json style output. See the sample below.  
+# analyze\_htmls.py
+analyze\_htmls.py implements the function that reads and analyzes all the html files at /tmp/FundsData/web_pages, and print out a json style output. See the sample below.  
 <pre><code>	
 {
 "000001": {
@@ -18,4 +18,4 @@ Both analzye\_htmls.pl and analyze\_htmls.py implements the same function. It is
 ......
 }
 </code></pre>  
-analyze\_htmls.pl has been deprecated, as it's just a reference object for analyze\_htmls.py and its output format has been different from the latest output format of the python script.   
+
