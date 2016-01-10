@@ -98,34 +98,44 @@ def list_files(target_dir):
             list_files(dir)
             
 
-def print_total_hash():
-    print "{"
-    all_keys = sorted(total_hash.keys())
-    last_key = all_keys[-1]
-    
-    indent = "    "  # 4 spaces
-    
-    for id in all_keys:
-        print indent + '"%s": {' % id
-        print indent + indent + '"title": "%s",' % total_hash[id]['title']
-        
-        all_id_keys = sorted(total_hash[id].keys())
-        last_id_key = all_id_keys[-1] if all_id_keys[-1] != 'title' else all_id_keys[-2]
-        
-        for date in all_id_keys:
-            if date != 'title':
-                if date != last_id_key:
-                    print indent + indent + '"%s": %s,' % (date, total_hash[id][date])
-                else:
-                    print indent + indent + '"%s": %s' % (date, total_hash[id][date])
+def output_total_hash(result_file):
+    try:
+        with open(result_file, 'w') as outfile:
+            outfile.write("{\n")
+            
+            all_keys = sorted(total_hash.keys())
+            last_key = all_keys[-1]
+            
+            indent = "    "  # 4 spaces
+            for id in all_keys:
+                outfile.write(indent + '"%s": {\n' % id)
+                outfile.write(indent + indent + '"title": "%s",\n' % total_hash[id]['title'])
                 
-        if id != last_key:
-            print indent + "},"
-        else:
-            print indent + "}"
-    print "}"
+                all_id_keys = sorted(total_hash[id].keys())
+                last_id_key = all_id_keys[-1] if all_id_keys[-1] != 'title' else all_id_keys[-2]
+                
+                for date in all_id_keys:
+                    if date != 'title':
+                        if date != last_id_key:
+                            outfile.write(indent + indent + '"%s": %s,\n' % (date, total_hash[id][date]))
+                        else:
+                            outfile.write(indent + indent + '"%s": %s\n' % (date, total_hash[id][date]))
+                        
+                if id != last_key:
+                    outfile.write(indent + "},\n")
+                else:
+                    outfile.write(indent + "}\n")
+                    
+            outfile.write("}\n")
+        
+    except Exception as ex:
+        print "Error happened when output total_hash: %s" % str(ex)
 
 
 if __name__ == "__main__":
-    list_files('/tmp/FundsData/web_pages')
-    print_total_hash()
+    root_dir = '/tmp/FundsData'
+    web_pages_dir = os.path.join(root_dir, 'web_pages')
+    result_file = os.path.join(root_dir, 'result/all_data.txt')
+    
+    list_files(web_pages_dir)
+    output_total_hash(result_file)
