@@ -21,4 +21,10 @@ analyze\_htmls.py implements the function that reads and analyzes all the html f
 
 **Usage:**  
 python analyze\_htmls.py  
-The result file "/tmp/FundsData/result/all_data.txt" will be generated. It is a file containing a pure big json. 
+The result file "/tmp/FundsData/result/all_data.txt" will be generated. It is a file containing a pure big json.  
+
+# executor.py  
+This script is to implement a trading algorithm. It also reports the money gain or lose.   
+
+**Usage:**  
+python executor.py  
