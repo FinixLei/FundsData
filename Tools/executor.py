@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import simplejson
+import sys
 
 def get_price_list(target_id): 
     content = ''
@@ -23,7 +24,10 @@ def get_price_list(target_id):
     return price_list
     
 
-def calculate(price_list, init_index, all_money):
+def calculate(price_list, init_index, all_money, report_mode='short_line'):
+
+    ### Step 1. Initialization
+    
     rest_money = all_money
     current_units = 0
 
@@ -32,20 +36,28 @@ def calculate(price_list, init_index, all_money):
     base_price = init_price
     
     plans = {
-        'SELL_0.6': {'percent': -0.6}, 
-        'SELL_0.8': {'percent': -0.8}, 
-        'SELL_ALL': {'percent': -1}, 
-        'BUY_0.6': {'percent': 0.6},
-        'BUY_0.8': {'percent': 0.8},
-        'BUY_ALL': {'percent': 1}
+        'SELL_MIDDLE': {'percent': -0.5}, 
+        'SELL_LARGE':  {'percent': -0.8}, 
+        'SELL_ALL':    {'percent': -1}, 
+        'BUY_MIDDLE':  {'percent': 0.5},
+        'BUY_LARGE':   {'percent': 0.8},
+        'BUY_ALL':     {'percent': 1}
     }
-    current_plan = None 
     
+    ### Step 2. Go Through the history data ###
+    
+    current_plan = 'No Plan'     
     while current_index < len(price_list):
+        
+        ### 2.1 Initialization ###
+        
         operation_flag = 0
+        date = price_list[current_index][0]
         current_price = price_list[current_index][1]
 
-        if current_plan is not None:
+        ### 2.2 Execute the plan made on yesterday ###
+        
+        if current_plan != 'No Plan':
             op_percent = abs(plans[current_plan]['percent'])
             
             if plans[current_plan]['percent'] < 0:  # sell it
@@ -63,18 +75,13 @@ def calculate(price_list, init_index, all_money):
                     operation_flag = 1
                 else:  # No money to buy
                     pass
-                
-            if operation_flag:
-                print "After this operation (index = %s), rest money is %s, current units are %s, current price is %s" \
-                        % (current_index, rest_money, current_units, current_price)
-            else:  
-                print "No operation on (index = %s, date = %s, price = %s), Do nothing" \
-                    % (current_index, price_list[current_index][0], price_list[current_index][1])
-                    
-        else:  # None plan
-            print "On (index = %s, date = %s, price = %s), Do nothing" \
-                    % (current_index, price_list[current_index][0], price_list[current_index][1])
-                    
+
+        else:  # No plan
+            pass
+        
+        ### 2.3 Calculate the profit ### 
+        
+        op_msg = 'Did operation today' if operation_flag else 'No operation'
         total_money = rest_money + current_units * current_price
         result = "Draw"
         if total_money > all_money:
@@ -82,41 +89,60 @@ def calculate(price_list, init_index, all_money):
         elif total_money < all_money:
             result = "Lose"
             
-        print "current_price=%s, current_units=%s, rest_money=%s, so total_money=%s, it's %s\n" \
-                % (current_price, current_units, rest_money, total_money, result)
-
-                
+        ### 2.4 Print Report ###
+        
+        if report_mode == 'long_line':
+            DAILY_INFO = "%s - %s:\nplan=%s, real operation=%s, rest_money=%s, units=%s, current price=%s\ntotal money=%s, result=%s\n" \
+                         % (current_index, date, current_plan, op_msg, rest_money, current_units, current_price, total_money, result)
+            print DAILY_INFO
+            
+        else:     
+            INFO = []
+            INFO.append("[%s] - %s:" % (current_index, date))
+            INFO.append("plan:          %s" % current_plan)
+            INFO.append("operation:     %s" % op_msg)
+            INFO.append("rest money:    %s" % rest_money)
+            INFO.append("units:         %s" % current_units)
+            INFO.append("current_price: %s" % current_price)
+            INFO.append("total money:   %s" % total_money)
+            INFO.append("result: %s\n"    % result)
+            for item in INFO:
+                print item
+        
+        ### 2.5 Make Plan for Tomorrow ###
+        
         delta = (current_price - base_price) / base_price
 
-        if delta < -0.04: 
-            current_plan = 'BUY_0.8'
+        if delta < -0.2: 
+            current_plan = 'BUY_LARGE'
         
-        elif -0.04 <= delta < -0.02:
+        elif -0.2 <= delta < -0.08:
             current_plan = 'SELL_ALL'
         
-        elif -0.02 <= delta < -0.01:
-            current_plan = 'SELL_0.6'
+        elif -0.08 <= delta < -0.05:
+            current_plan = 'SELL_MIDDLE'
             
-        elif -0.01 <= delta < 0.15:
+        elif -0.05 <= delta < 0.1:
             # do nothing 
             pass
             
-        elif 0.15 <= delta < 0.20:
-            current_plan = 'SELL_0.8'
+        elif 0.1 <= delta < 0.15:
+            current_plan = 'SELL_MIDDLE'
             
-        elif 0.20 <= delta:
+        elif 0.15 <= delta:
             current_plan = 'SELL_ALL'
             
         current_index += 1
-        base_price = current_price if current_price > base_price else base_price
+        # base_price = current_price if current_price > base_price else base_price
     
     
 if __name__ == '__main__':
-    # target_id = '000011'
-    target_id = '233009'
+    target_id = '213008'
+    # target_id = '233009'
     price_list = get_price_list(target_id)
     
     all_money = 10000.0
-    init_index = 0
-    calculate(price_list, init_index, all_money)
+    init_index = 7
+    report_mode = sys.argv[1] if len(sys.argv) >= 2 is not None else 'long_line'    
+    calculate(price_list, init_index, all_money, report_mode=report_mode)
     
