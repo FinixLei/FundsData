@@ -1,8 +1,26 @@
 # coding=utf-8
 
+######################################################################################################
+# Usage: python gen_all_funds_report.py
+#    This script parses all the htmls at the specified foler and generate one dict called total_hash, 
+#    and merge the current report (if there is) into total_hash, and output total_hash to one file. 
+######################################################################################################
+
 import re
 import os
+import simplejson
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
+# Settings
+current_report_file = "./all_data.txt"
+root_dir = '/tmp/FundsData'
+web_pages_dir = os.path.join(root_dir, 'web_pages')
+result_file = "./all_data_new.txt"
+
+
+# pattern for parsing html files
 file_path_mode = re.compile(r'.*?(\d{4})-(\d{2})-\d{2}')
 tr_mode = re.compile(r'\s*<tr>\s*')
 date_mode = re.compile(r'\s*<td.*?>(.+)\</td>')
@@ -132,10 +150,33 @@ def output_total_hash(result_file):
         print "Error happened when output total_hash: %s" % str(ex)
 
 
-if __name__ == "__main__":
-    root_dir = '/tmp/FundsData'
-    web_pages_dir = os.path.join(root_dir, 'web_pages')
-    result_file = os.path.join(root_dir, 'result/all_data.txt')
+def execute():
+    # Step 1. Get current report
+    try:
+        with open(current_report_file, "r") as INFILE:
+            content = INFILE.read()
+        current_report = simplejson.loads(content)
+    except Exception as ex:
+        print "One exception: %s" % str(ex)
     
+    # Step 2. Get report from web pages folder
     list_files(web_pages_dir)
+    
+    # Step 3. Merge current report into total_hash which represents information of latest web pages
+    if current_report is not None:
+        for id, info in current_report.iteritems():
+            if total_hash.get(id) is not None:
+                for date, value in current_report[id].iteritems():
+                    if date != "title" and total_hash[id].get(date) is None:
+                        total_hash[id][date] = value
+            else:
+                total_hash[id] = {}
+                for k,v in current_report[id].iteritems():
+                    total_hash[id][k] = v
+        
+    # Step 4. Output latest report of all funds
     output_total_hash(result_file)
+        
+if __name__ == "__main__":
+    execute()
+    

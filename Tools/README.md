@@ -1,5 +1,5 @@
-# analyze\_htmls.py
-analyze\_htmls.py implements the function that reads and analyzes all the html files at /tmp/FundsData/web_pages, and print out a json style output. See the sample below.  
+# gen\_all\_funds\_report.py
+gen\_all\_funds\_report.py implements the function that reads and analyzes all the html files at /tmp/FundsData/web_pages, and output to a json style file. If specify an existing report, it can merge the existing report to the analyzed result to be a bigger report. See the sample style below.  
 <pre><code>	
 {
 "000001": {
@@ -19,9 +19,7 @@ analyze\_htmls.py implements the function that reads and analyzes all the html f
 }
 </code></pre>  
 
-**Usage:**  
-python analyze\_htmls.py  
-The result file "/tmp/FundsData/result/all_data.txt" will be generated. It is a file containing a pure big json.  
+The settings are in the script itself. 
 
 # executor.py  
 This script is to implement a trading algorithm. It also reports the money gain or lose.   
