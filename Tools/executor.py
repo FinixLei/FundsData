@@ -28,10 +28,10 @@ def calculate(price_list, init_index, all_money, report_mode='short_line'):
 
     ### Step 1. Initialization
     
-    rest_money = all_money
-    current_units = 0
-
     init_price = price_list[init_index][1]
+    rest_money = 0
+    current_units = all_money / init_price
+    
     current_index = init_index + 1
     base_price = init_price
     
@@ -92,20 +92,24 @@ def calculate(price_list, init_index, all_money, report_mode='short_line'):
         ### 2.4 Print Report ###
         
         if report_mode == 'long_line':
-            DAILY_INFO = "%s - %s:\nplan=%s, real operation=%s, rest_money=%s, units=%s, current price=%s\ntotal money=%s, result=%s\n" \
-                         % (current_index, date, current_plan, op_msg, rest_money, current_units, current_price, total_money, result)
+            if operation_flag != 0:
+                DAILY_INFO = "%s - %s:\nplan=%s, real operation=%s, rest_money=%s, units=%s, current price=%s\ntotal money=%s, result=%s\n" \
+                             % (current_index, date, current_plan, op_msg, rest_money, current_units, current_price, total_money, result)
+            else:
+                DAILY_INFO = "%(current_index)d - %(date)s: No Operation today" % {'current_index': current_index, 'date': date}
             print DAILY_INFO
             
-        else:     
+        else: 
             INFO = []
             INFO.append("[%s] - %s:" % (current_index, date))
-            INFO.append("plan:          %s" % current_plan)
             INFO.append("operation:     %s" % op_msg)
-            INFO.append("rest money:    %s" % rest_money)
-            INFO.append("units:         %s" % current_units)
-            INFO.append("current_price: %s" % current_price)
-            INFO.append("total money:   %s" % total_money)
-            INFO.append("result: %s\n"    % result)
+            if operation_flag != 0:
+                INFO.append("plan:          %s" % current_plan)
+                INFO.append("rest money:    %s" % rest_money)
+                INFO.append("units:         %s" % current_units)
+                INFO.append("current_price: %s" % current_price)
+                INFO.append("total money:   %s" % total_money)
+                INFO.append("result: %s\n"    % result)
             for item in INFO:
                 print item
         
@@ -116,20 +120,20 @@ def calculate(price_list, init_index, all_money, report_mode='short_line'):
         if delta < -0.2: 
             current_plan = 'BUY_LARGE'
         
-        elif -0.2 <= delta < -0.08:
+        elif -0.2 <= delta < -0.10:
             current_plan = 'SELL_ALL'
         
-        elif -0.08 <= delta < -0.05:
+        elif -0.10 <= delta < -0.05:
             current_plan = 'SELL_MIDDLE'
             
-        elif -0.05 <= delta < 0.1:
+        elif -0.05 <= delta < 0.05:
             # do nothing 
             pass
             
-        elif 0.1 <= delta < 0.15:
+        elif 0.05 <= delta < 0.10:
             current_plan = 'SELL_MIDDLE'
             
-        elif 0.15 <= delta:
+        elif 0.10 <= delta:
             current_plan = 'SELL_ALL'
             
         current_index += 1
@@ -142,7 +146,7 @@ if __name__ == '__main__':
     price_list = get_price_list(target_id)
     
     all_money = 10000.0
-    init_index = 7
-    report_mode = sys.argv[1] if len(sys.argv) >= 2 is not None else 'long_line'    
+    init_index = 0
+    report_mode = sys.argv[1] if len(sys.argv) >= 2 else 'short_line'    
     calculate(price_list, init_index, all_money, report_mode=report_mode)
     
