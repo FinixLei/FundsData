@@ -26,8 +26,8 @@ def _gen_set(order, Top):
 
 
 def get_intersection(WriteFile, Top=100,
-                     Inc3Years=True, Inc2Years=True, Inc1Year=True,
-                     Inc6Months=True, Inc3Months=True, Inc1Month=True):
+                     Inc3Years=False, Inc2Years=False, Inc1Year=False,
+                     Inc6Months=False, Inc3Months=False, Inc1Month=False):
     set_3years = _gen_set("Inc3Years", Top) if Inc3Years else set()
     set_2years = _gen_set("Inc2Years", Top) if Inc2Years else set()
     set_1year = _gen_set("Inc1Year", Top) if Inc1Year else set()
